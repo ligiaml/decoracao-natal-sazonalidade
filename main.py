@@ -8,7 +8,12 @@ df = pd.read_csv("multiTimeline.csv", skiprows=1)
 df["Semana"] = pd.to_datetime(df["Semana"])
 
 df = df.set_index("Semana")
-y = df["Pokémon GO: (Mundo)"]
+y = df["decoração de Natal: (Brasil)"].astype(str).str.strip()
+
+y = y.replace("<1", "0.5")
+y = pd.to_numeric(y)
+
+
 
 print("\n Informações da Série")
 print("======================================================")
@@ -16,8 +21,8 @@ print("======================================================")
 print(y.describe())
 
 plt.figure(figsize=(14,5))
-plt.plot(y,label="Interesse pelo PokeGO")
-plt.title("Interesse pelo PokeGO ao longo do tempo")
+plt.plot(y,label="Interesse por decoração de Natal")
+plt.title("Interesse por decoração de Natal ao longo do tempo")
 plt.xlabel("Data")
 plt.ylabel("Indice Google Trends")
 
@@ -44,7 +49,7 @@ decomposicao = seasonal_decompose(y, model="additive", period=52)
 
 fig = decomposicao.plot()
 fig.set_size_inches(14,9)
-fig.suptitle("Decomposição sazonal pokego", y=1.02)
+fig.suptitle("Decomposição sazonal Deco Natal", y=1.02)
 plt.tight_layout()
 plt.show()
 
@@ -56,7 +61,7 @@ plot_acf(
     zero=False
 )
 
-plt.title("Função de Autocorrelação - Pokémon GO")
+plt.title("Função de Autocorrelação - Decoração Natal")
 plt.xlabel("Defasagem (semanas)")
 plt.tight_layout()
 plt.show()
